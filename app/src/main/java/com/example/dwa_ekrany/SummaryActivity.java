@@ -14,7 +14,9 @@ public class SummaryActivity extends AppCompatActivity {
     public static final String EXTRA_RESULT = "com.example.dwa_ekrany.RESULT";
 
     TextView tvSummary;
-    Button btnBack, btnAccept;
+    Button btnBack, btnAccept, btnShare;
+
+    String summary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +26,15 @@ public class SummaryActivity extends AppCompatActivity {
         tvSummary = findViewById(R.id.tvSummary);
         btnBack = findViewById(R.id.btnBack);
         btnAccept = findViewById(R.id.btnAccept);
+        btnShare = findViewById(R.id.btnShare);
 
         String name = getIntent().getStringExtra(EXTRA_NAME);
         String email = getIntent().getStringExtra(EXTRA_EMAIL);
 
-        tvSummary.setText(
-                "Imię i nazwisko: " + name + "\n\n"
-                        + "E-mail: " + email
-        );
+        summary = "Imię i nazwisko: " + name + "\n\n"
+                + "E-mail: " + email;
+
+        tvSummary.setText(summary);
 
         btnBack.setOnClickListener(v -> finish());
 
@@ -42,5 +45,15 @@ public class SummaryActivity extends AppCompatActivity {
             setResult(RESULT_OK, result);
             finish();
         });
+
+        btnShare.setOnClickListener(v -> shareSummary());
+    }
+
+    private void shareSummary() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, summary);
+
+        startActivity(Intent.createChooser(intent, "Udostępnij podsumowanie"));
     }
 }
