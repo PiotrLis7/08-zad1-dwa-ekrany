@@ -1,5 +1,6 @@
 package com.example.dwa_ekrany;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,9 +11,10 @@ public class SummaryActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "com.example.dwa_ekrany.NAME";
     public static final String EXTRA_EMAIL = "com.example.dwa_ekrany.EMAIL";
+    public static final String EXTRA_RESULT = "com.example.dwa_ekrany.RESULT";
 
     TextView tvSummary;
-    Button btnBack;
+    Button btnBack, btnAccept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         tvSummary = findViewById(R.id.tvSummary);
         btnBack = findViewById(R.id.btnBack);
+        btnAccept = findViewById(R.id.btnAccept);
 
         String name = getIntent().getStringExtra(EXTRA_NAME);
         String email = getIntent().getStringExtra(EXTRA_EMAIL);
@@ -31,5 +34,13 @@ public class SummaryActivity extends AppCompatActivity {
         );
 
         btnBack.setOnClickListener(v -> finish());
+
+        btnAccept.setOnClickListener(v -> {
+            Intent result = new Intent();
+            result.putExtra(EXTRA_RESULT, "Zgłoszenie zostało zatwierdzone");
+
+            setResult(RESULT_OK, result);
+            finish();
+        });
     }
 }
